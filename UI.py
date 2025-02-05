@@ -22,7 +22,7 @@ if os.path.isfile('data.json')==True:
 
 
 
-st.write("Inside the form")
+st.write("Enter Expense")
 
 date = st.date_input("Select date")
 reason = st.text_input("Enter Reason")
