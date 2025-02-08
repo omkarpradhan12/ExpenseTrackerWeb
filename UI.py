@@ -68,20 +68,24 @@ cat_grp = get_cat_df(df)
 container = st.container(border=True)
 container.header("TOTAL : :blue["+str(sum(st.session_state['df_result']['amount']))+"]")
 
-st.dataframe(st.session_state['df_grp'], use_container_width=True)
-st.dataframe(st.session_state['df_result'], use_container_width=True)
-# st.dataframe(df, use_container_width=True)
+tabs = st.tabs(['Data','Graph'])
 
-st.subheader("Amount per Category")
-fig = px.bar(st.session_state['df_grp'], x='category', y='amount',text_auto=True)
-fig.update_layout(showlegend=False)
-st.plotly_chart(fig)
+with tabs[0]:
+    st.dataframe(st.session_state['df_result'], use_container_width=True)
 
-st.subheader("Amount per Category")
-fig_donut = px.pie(st.session_state['df_grp'], values='amount', names='category', hole=0.4)
-st.plotly_chart(fig_donut)
+with tabs[1]:
+    st.dataframe(st.session_state['df_grp'], use_container_width=True)
 
-st.subheader("Amount per Day")
-fig = px.bar(st.session_state['df_result'], x='date', y='amount',color='category',text_auto=True)
-fig.update_layout(showlegend=True)
-st.plotly_chart(fig)
+    st.subheader("Amount per Category")
+    fig = px.bar(st.session_state['df_grp'], x='category', y='amount',text_auto=True)
+    fig.update_layout(showlegend=False)
+    st.plotly_chart(fig)
+
+    st.subheader("Amount per Category")
+    fig_donut = px.pie(st.session_state['df_grp'], values='amount', names='category', hole=0.4)
+    st.plotly_chart(fig_donut)
+
+    st.subheader("Amount per Day")
+    fig = px.bar(st.session_state['df_result'], x='date', y='amount',color='category',text_auto=True)
+    fig.update_layout(showlegend=True)
+    st.plotly_chart(fig)
