@@ -22,13 +22,6 @@ def _new_expense():
         st.rerun()
 
 
-if "df_result" not in st.session_state:
-    st.session_state['df_result'] = pd.DataFrame(columns=['date','reason','category','price'])
-
-if "df_grp" not in st.session_state:
-    st.session_state['df_grp'] = pd.DataFrame(columns=['category','amount'])
-
-
 if os.path.isfile('data.json')==False:
     data = {"date": [],"reason":[],"category":[],"amount":[]}
     with open('data.json','w+') as f:
@@ -45,6 +38,15 @@ if os.path.isfile('data.json')==True:
             data = {"date": [],"reason":[],"category":[],"amount":[]}
         st.session_state['df_result'] = pd.DataFrame(data)
 
+if "df_result" not in st.session_state:
+    st.session_state['df_result'] = pd.DataFrame(columns=['date','reason','category','price'])
+
+if "df_grp" not in st.session_state:
+    try:
+        st.session_state['df_grp'] = get_cat_df(st.session_state['df_result'])
+    except Exception as e:
+        print(st.session_state['df_result'])
+        st.session_state['df_grp'] = pd.DataFrame(columns=['category','amount'])
 
 columns = st.columns((1,1))
 with columns[0]:
