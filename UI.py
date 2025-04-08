@@ -11,11 +11,11 @@ def _new_expense():
 
     date = st.date_input("Select date")
     reason = st.text_input("Enter Reason")
-    category = st.selectbox("Select Category",("Food", "Drink", "Flat","Other"))
+    category = st.text_input("Enter Category")
     amount = st.number_input("Enter Amount")
 
     if st.button("Add Expense"):
-        st.session_state['df_result'].loc[len(st.session_state['df_result'])] = {"date":str(date),"reason":str(reason),"category":str(category),"amount":int(amount)}
+        st.session_state['df_result'].loc[len(st.session_state['df_result'])] = {"date":str(date),"reason":str(reason),"category":str(category.capitalize()),"amount":int(amount)}
         new_df = st.session_state['df_result']
         new_df.to_json('data.json')
         st.session_state['df_grp'] = get_cat_df(new_df)
